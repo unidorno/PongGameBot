@@ -108,7 +108,7 @@ player = {
 	x: null,
 	y: null,
 	score: null,
-	highscore: null,
+	finished: false,
 
 	width:  20,
 	height: 100,
@@ -344,8 +344,7 @@ function update() {
 	ball.update();
 	player.update();
 	ai.update();
-
-	if (player.score >= 1){
+    if (player.score >= 1 && !player.finished){
 		//player.highscore = player.score;
 		var xmlhttp = new XMLHttpRequest();
         var url = "https://unidorno.github.io/PongGameBot/highscore/" + player.score + "?id=" + playerid;
@@ -358,6 +357,7 @@ function update() {
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+        player.finished = true;
 	}
 }
 
