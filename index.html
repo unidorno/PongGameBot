@@ -23,6 +23,8 @@
 </head>
 <body>
 <script>
+var url = new URL(location.href);
+var playerid = url.searchParams.get("id");
 /**
  * Scoreboard stuff
  *  _   0
@@ -131,6 +133,7 @@ player = {
 	x: null,
 	y: null,
 	score: null,
+	highscore: null,
 
 	width:  20,
 	height: 100,
@@ -366,6 +369,21 @@ function update() {
 	ball.update();
 	player.update();
 	ai.update();
+
+	if (player.score >= 3){
+		player.highscore = player.score;
+		var xmlhttp = new XMLHttpRequest();
+        var url = "https://unidorno.github.io/PongGameBot/index.html/highscore/" + player.score + "?id=" + playerid;
+       	var sendingText = document.getElementById("sendingText");
+        sendingText.style.display = "block";
+
+        xmlhttp.onreadystatechange = function() 
+		{
+        	sendingText.style.display = "none";
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+	}
 }
 
 /**
